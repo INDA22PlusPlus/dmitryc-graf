@@ -68,12 +68,31 @@ pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>
     return {graphs, all_queries};
 }
 
+void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
+    // Loops through all graphs
+    for (vector<vector<long long>>& graph: graphs) {
+        // Floyd Warshall's algorithm for each graph
+        for (int k = 0; k < graph.size(); k++) {
+            for (int i = 0; i < graph.size(); i++) {
+                for (int j = 0; j < graph.size(); j++) {
+                    graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
+                }
+            }
+        }
+    }
+}
+
+
+void print_queries() {
+
+}
+
 int main() {
     // TODO: Fix this mess
     pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>>>> inp = get_input();
-//    vector<vector<vector<long long>>> graph = inp.first;
-//    vector<vector<pair<long long, long long>>> all_queries = inp.second;
-
-
+    vector<vector<vector<long long>>> graphs = inp.first;
+    vector<vector<pair<long long, long long>>> all_queries = inp.second;
+    floyd_warshall(graphs);
+    print_queries();
     return 1;
 }
