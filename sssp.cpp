@@ -40,10 +40,10 @@ struct CompareDistances {
 class Graph {
 public:
     vector<Vertex> vertices;
-    vector<long long> quires;
+    vector<long long> queries;
     long long starting_vertex;
 
-    Graph(long long vertices_amount, long long quires, long long starting_vertex) {
+    Graph(long long vertices_amount, long long queries, long long starting_vertex) {
         this->vertices = vector<Vertex>(vertices_amount);
 
         // TODO: Fix this
@@ -51,7 +51,7 @@ public:
             this->vertices[i].id = i;
         }
 
-        this->quires = vector<long long>(quires);
+        this->queries = vector<long long>(queries);
         this->starting_vertex = starting_vertex;
     }
 
@@ -70,23 +70,23 @@ public:
         }
     }
 
-    // Adds quires form cin input
-    void add_quires_from_input(long long quires_amount, bool print=false) {
+    // Adds queries form cin input
+    void add_queries_from_input(long long queries_amount, bool print=false) {
         // TODO: Loop without i
-        for (int i = 0; i < quires_amount; i++) {
+        for (int i = 0; i < queries_amount; i++) {
             long long query;
             cin >> query;
-            quires[i] = query;
+            queries[i] = query;
             if (print){
-                cout << quires[i] << endl;
+                cout << queries[i] << endl;
             }
         }
     }
 
-    // Adds edges and quires from cin input
-    void add_edges_and_quires_from_input(long long edges, long long quires_amount, bool print=false) {
+    // Adds edges and queries from cin input
+    void add_edges_and_queries_from_input(long long edges, long long queries_amount, bool print=false) {
         add_edges_from_input(edges, print);
-        add_quires_from_input(quires_amount, print);
+        add_queries_from_input(queries_amount, print);
     }
 
     // Computes the shortest distance to vertices in the graph using Dijkstra's Algorithm
@@ -114,10 +114,10 @@ public:
         }
     }
 
-    // Prints out distances from quires to vertices, beginning with starting vertex.
+    // Prints out distances from queries to vertices, beginning with starting vertex.
     // Prints "Impossible" if the distance cannot be reached, otherwise prints the distance to the vertex.
     void print_distances() {
-        for (long long query: quires) {
+        for (long long query: queries) {
             long long distance = vertices[query].distance;
             if (distance == LLONG_MAX) {
                 cout << "Impossible" << endl;
@@ -153,13 +153,13 @@ vector<Graph> get_graphs_from_input(bool print=false) {
     vector<Graph> graphs;
 
     while (true) {
-        long long vertices_amount, edges, quires_amount, starting_vertex;
-        cin >> vertices_amount >> edges >> quires_amount >> starting_vertex;
-        if (vertices_amount == 0 and edges == 0 and quires_amount == 0 and starting_vertex == 0) {
+        long long vertices_amount, edges, queries_amount, starting_vertex;
+        cin >> vertices_amount >> edges >> queries_amount >> starting_vertex;
+        if (vertices_amount == 0 and edges == 0 and queries_amount == 0 and starting_vertex == 0) {
             break;
         }
-        Graph graph = Graph(vertices_amount, quires_amount, starting_vertex);
-        graph.add_edges_and_quires_from_input(edges, quires_amount, print);
+        Graph graph = Graph(vertices_amount, queries_amount, starting_vertex);
+        graph.add_edges_and_queries_from_input(edges, queries_amount, print);
         graphs.push_back(graph);
     }
 
