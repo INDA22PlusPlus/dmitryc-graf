@@ -32,8 +32,6 @@ public:
 struct CompareDistances {
     bool operator()(Vertex& v1, Vertex& v2)
     {
-        // return "true" if "p1" is ordered
-        // before "p2", for example:
         return v1.distance < v2.distance;
     }
 };
@@ -44,12 +42,6 @@ public:
     vector<Vertex> vertices;
     vector<long long> quires;
     long long starting_vertex;
-//    vector<long long> distances;
-
-//    Graph() {
-//        get_graph_from_input();
-//    }
-//
     Graph(long long vertices_amount, long long quires, long long starting_vertex) {
         this->vertices = vector<Vertex>(vertices_amount);
         for (long long i = 0; i < vertices_amount; i++) {
@@ -58,7 +50,6 @@ public:
 
         this->quires = vector<long long>(quires);
         this->starting_vertex = starting_vertex;
-//        this->distances = vector<long long>(quires);
     }
 
     void add_edges_from_input(long long edges, bool print=false) {
@@ -97,7 +88,6 @@ public:
         start.distance = 0;
         priority_queue<Vertex, vector<Vertex>, CompareDistances> pq;
         pq.push(start);
-//        cout << pq.top().distance  << endl;
 
         while (!pq.empty()) {
             // TODO: Fix this, had problems with references, solved with sketchy id system so far
@@ -107,18 +97,11 @@ public:
 
             for (Edge edge: vertex.edges) {
                 long long new_distance = vertex.distance + edge.weight;
-
-//                cout << "Vertex distance: " << vertex.distance << endl;
-//                cout << "New distance: " << new_distance << endl;
-
-
-
                 Vertex& adjacent_vertex = vertices[edge.vertex];
 
                 if (new_distance < adjacent_vertex.distance) {
                     pq.push(adjacent_vertex);
                     adjacent_vertex.distance = new_distance;
-//                    cout << adjacent_vertex.distance << endl;
                 }
             }
         }
@@ -173,8 +156,6 @@ vector<Graph> get_graphs_from_input(bool print=false) {
 }
 
 int main() {
-//    std::priority_queue<Edge> pq;
-
     vector<Graph> graphs = get_graphs_from_input(false);
     run_dijkstra_multiple_graphs(graphs);
     print_distances_multiple_graphs(graphs);
