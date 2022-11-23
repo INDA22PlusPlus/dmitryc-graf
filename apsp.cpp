@@ -118,5 +118,5 @@ int main() {
 
     print_queries(graphs, all_queries);
 
-    return 1;
+    return 0;
 }
