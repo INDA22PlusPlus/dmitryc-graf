@@ -83,6 +83,23 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
     }
 }
 
+// A second run of the Floyd Warshall's algorithm to fix the negative values
+void floyd_warshall_negative(vector<vector<vector<long long>>>& graphs) {
+    // Loops through all graphs
+    for (vector<vector<long long>>& graph: graphs) {
+        // Floyd Warshall's algorithm for each graph
+        for (int k = 0; k < graph.size(); k++) {
+            for (int i = 0; i < graph.size(); i++) {
+                for (int j = 0; j < graph.size(); j++) {
+                    if (graph[i][k] + graph[k][j] < graph[i][j]) {
+                        graph[i][j] = INFN;
+                    }
+                }
+            }
+        }
+    }
+};
+
 // Prints the queries from the graph
 void print_queries(vector<vector<vector<long long>>> graphs, vector<vector<pair<long long, long long>>> all_queries) {
     // Loops through graphs and responding queries
@@ -95,6 +112,8 @@ void print_queries(vector<vector<vector<long long>>> graphs, vector<vector<pair<
             long long distance = graph[query.first][query.second];
             if (distance == INFP) {
                 cout << "Impossible" << endl;
+            } else if (distance == INFN) {
+                cout << "-Infinity" << endl;
             } else {
                 cout << distance << endl;
             }
@@ -115,6 +134,7 @@ int main() {
     vector<vector<pair<long long, long long>>> all_queries = inp.second;
 
     floyd_warshall(graphs);
+    floyd_warshall_negative(graphs);
 
     print_queries(graphs, all_queries);
 
