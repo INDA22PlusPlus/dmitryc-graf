@@ -17,7 +17,25 @@ class Vertex {
 public:
     vector<Edge> edges;
     long long distance = LLONG_MAX;
-    bool visited = false;
+    long long id;
+
+    Vertex() {
+        this->id = 0;
+    }
+
+    Vertex(long long id) {
+        this->id = id;
+    }
+//    bool visited = false;
+};
+
+struct CompareDistances {
+    bool operator()(Vertex& v1, Vertex& v2)
+    {
+        // return "true" if "p1" is ordered
+        // before "p2", for example:
+        return v1.distance < v2.distance;
+    }
 };
 
 // TODO: Fix vectors to arrays
@@ -26,6 +44,7 @@ public:
     vector<Vertex> vertices;
     vector<long long> quires;
     long long starting_vertex;
+//    vector<long long> distances;
 
 //    Graph() {
 //        get_graph_from_input();
@@ -33,8 +52,13 @@ public:
 //
     Graph(long long vertices_amount, long long quires, long long starting_vertex) {
         this->vertices = vector<Vertex>(vertices_amount);
+        for (long long i = 0; i < vertices_amount; i++) {
+            this->vertices[i].id = i;
+        }
+
         this->quires = vector<long long>(quires);
         this->starting_vertex = starting_vertex;
+//        this->distances = vector<long long>(quires);
     }
 
     void add_edges_from_input(long long edges, bool print=false) {
@@ -69,11 +93,67 @@ public:
     }
 
     void dijkstra() {
+        Vertex& start = vertices[starting_vertex];
+        start.distance = 0;
+        priority_queue<Vertex, vector<Vertex>, CompareDistances> pq;
+        pq.push(start);
+//        cout << pq.top().distance  << endl;
 
+        while (!pq.empty()) {
+            // TODO: Fix this, had problems with references, solved with sketchy id system so far
+            long long vertex_id = pq.top().id;
+            pq.pop();
+            Vertex& vertex = vertices[vertex_id];
+
+            for (Edge edge: vertex.edges) {
+                long long new_distance = vertex.distance + edge.weight;
+
+//                cout << "Vertex distance: " << vertex.distance << endl;
+//                cout << "New distance: " << new_distance << endl;
+
+
+
+                Vertex& adjacent_vertex = vertices[edge.vertex];
+
+                if (new_distance < adjacent_vertex.distance) {
+                    pq.push(adjacent_vertex);
+                    adjacent_vertex.distance = new_distance;
+//                    cout << adjacent_vertex.distance << endl;
+                }
+            }
+        }
+//        cout << endl;
+    }
+
+    void print_distances() {
+        for (long long query: quires) {
+            long long distance = vertices[query].distance;
+            if (distance == LLONG_MAX) {
+                cout << "Impossible" << endl;
+            } else {
+                cout << distance << endl;
+            }
+        }
     }
 };
 
-//priority_queue<>
+void run_dijkstra_multiple_graphs(vector<Graph>& graphs) {
+    for (Graph& graph: graphs) {
+        graph.dijkstra();
+    }
+}
+
+void print_distances_multiple_graphs(const vector<Graph>& graphs) {
+    for (int i = 0; i < graphs.size(); i++) {
+        Graph graph = graphs[i];
+        graph.print_distances();
+
+        // TODO: Fix this
+        if (i < graphs.size() - 1) {
+            cout << endl;
+        }
+    }
+}
 
 vector<Graph> get_graphs_from_input(bool print=false) {
     vector<Graph> graphs;
@@ -95,8 +175,9 @@ vector<Graph> get_graphs_from_input(bool print=false) {
 int main() {
 //    std::priority_queue<Edge> pq;
 
-    vector<Graph> graphs = get_graphs_from_input(true);
+    vector<Graph> graphs = get_graphs_from_input(false);
+    run_dijkstra_multiple_graphs(graphs);
+    print_distances_multiple_graphs(graphs);
 
-//    cout << endl << "Hello, World!" << endl;
     return 0;
 }
