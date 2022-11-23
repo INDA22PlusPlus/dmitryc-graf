@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
+
 long long INFP = 100000005LL;
 long long INFN = -100000005LL;
 
