@@ -18,39 +18,67 @@ public:
     vector<Edge> edges;
 };
 
-//class Graph {
-//public:
-//    Vertex verices[];
-//};
+// TODO: Fix vectors to arrays
+class Graph {
+public:
+    vector<Vertex> vertices;
+    vector<long long> quires;
+    long long starting_vertex;
 
-int main() {
-//    std::priority_queue<Edge> pq;
+//    Graph() {
+//        get_graph_from_input();
+//    }
+//
+    Graph(long long vertices_amount, long long quires, long long starting_vertex) {
+        this->vertices = vector<Vertex>(vertices_amount);
+        this->quires = vector<long long>(quires);
+        this->starting_vertex = starting_vertex;
+    }
 
-    while (true) {
-        long long vertices, edges, amount_of_quires, starting_vertex;
-        cin >> vertices >> edges >> amount_of_quires >> starting_vertex;
-        if (vertices == 0 and edges == 0 and amount_of_quires == 0 and starting_vertex == 0) {
-            break;
-        }
-
-        Vertex graph [vertices];
-        int quires [amount_of_quires];
+    void add_edges_and_quires_from_input(long long edges, long long quires_amount) {
+//        Graph graph = Graph(vertices_amount, edges);
 
         // TODO: Loop without i
         for (int i = 0; i < edges; i++) {
             long long vertex_from, vertex_to, weight;
             cin >> vertex_from >> vertex_to >> weight;
-            graph[vertex_from].edges.emplace_back(vertex_to, weight);
-//        Edge last = graph[vertex_from].edges.back();
-//        cout << endl << last.vertex << last.weight;
+            vertices[vertex_from].edges.emplace_back(Edge(vertex_to, weight));
+
+            Edge last = vertices[vertex_from].edges.back();
+            cout << vertex_from << " " << last.vertex << " " << last.weight << endl;
         }
 
         // TODO: Loop without i
-        for (int i = 0; i < amount_of_quires; i++) {
-            cin >> quires[i];
+        for (int i = 0; i < quires_amount; i++) {
+            long long query;
+            cin >> query;
+            quires[i] = query;
             cout << quires[i] << endl;
         }
     }
+};
+
+vector<Graph> get_graphs_from_input() {
+    vector<Graph> graphs;
+
+    while (true) {
+        long long vertices_amount, edges, quires_amount, starting_vertex;
+        cin >> vertices_amount >> edges >> quires_amount >> starting_vertex;
+        if (vertices_amount == 0 and edges == 0 and quires_amount == 0 and starting_vertex == 0) {
+            break;
+        }
+        Graph graph = Graph(vertices_amount, quires_amount, starting_vertex);
+        graph.add_edges_and_quires_from_input(edges, quires_amount);
+        graphs.push_back(graph);
+    }
+
+    return graphs;
+}
+
+int main() {
+//    std::priority_queue<Edge> pq;
+
+    vector<Graph> graphs = get_graphs_from_input();
 
 //    cout << endl << "Hello, World!" << endl;
     return 0;
