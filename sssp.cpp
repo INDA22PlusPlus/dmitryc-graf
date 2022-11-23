@@ -26,7 +26,6 @@ public:
     Vertex(long long id) {
         this->id = id;
     }
-//    bool visited = false;
 };
 
 struct CompareDistances {
@@ -42,8 +41,11 @@ public:
     vector<Vertex> vertices;
     vector<long long> quires;
     long long starting_vertex;
+
     Graph(long long vertices_amount, long long quires, long long starting_vertex) {
         this->vertices = vector<Vertex>(vertices_amount);
+
+        // TODO: Fix this
         for (long long i = 0; i < vertices_amount; i++) {
             this->vertices[i].id = i;
         }
@@ -52,6 +54,7 @@ public:
         this->starting_vertex = starting_vertex;
     }
 
+    // Adds edges from cin input
     void add_edges_from_input(long long edges, bool print=false) {
         // TODO: Loop without i
         for (int i = 0; i < edges; i++) {
@@ -66,6 +69,7 @@ public:
         }
     }
 
+    // Adds quires form cin input
     void add_quires_from_input(long long quires_amount, bool print=false) {
         // TODO: Loop without i
         for (int i = 0; i < quires_amount; i++) {
@@ -78,11 +82,13 @@ public:
         }
     }
 
+    // Adds edges and quires from cin input
     void add_edges_and_quires_from_input(long long edges, long long quires_amount, bool print=false) {
         add_edges_from_input(edges, print);
         add_quires_from_input(quires_amount, print);
     }
 
+    // Computes the shortest distance to vertices in the graph using Dijkstra's Algorithm
     void dijkstra() {
         Vertex& start = vertices[starting_vertex];
         start.distance = 0;
@@ -105,9 +111,10 @@ public:
                 }
             }
         }
-//        cout << endl;
     }
 
+    // Prints out distances from quires to vertices, beginning with starting vertex.
+    // Prints "Impossible" if the distance cannot be reached, otherwise prints the distance to the vertex.
     void print_distances() {
         for (long long query: quires) {
             long long distance = vertices[query].distance;
@@ -120,12 +127,14 @@ public:
     }
 };
 
+// Runs Dijkstra for all graphs
 void run_dijkstra_multiple_graphs(vector<Graph>& graphs) {
     for (Graph& graph: graphs) {
         graph.dijkstra();
     }
 }
 
+// Prints out distances for all graphs
 void print_distances_multiple_graphs(const vector<Graph>& graphs) {
     for (int i = 0; i < graphs.size(); i++) {
         Graph graph = graphs[i];
@@ -138,6 +147,7 @@ void print_distances_multiple_graphs(const vector<Graph>& graphs) {
     }
 }
 
+// Constructs graphs based on input from cin
 vector<Graph> get_graphs_from_input(bool print=false) {
     vector<Graph> graphs;
 
