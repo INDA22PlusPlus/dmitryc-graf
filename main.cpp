@@ -35,30 +35,39 @@ public:
         this->starting_vertex = starting_vertex;
     }
 
-    void add_edges_and_quires_from_input(long long edges, long long quires_amount) {
-//        Graph graph = Graph(vertices_amount, edges);
-
+    void add_edges_from_input(long long edges, bool print=false) {
         // TODO: Loop without i
         for (int i = 0; i < edges; i++) {
             long long vertex_from, vertex_to, weight;
             cin >> vertex_from >> vertex_to >> weight;
             vertices[vertex_from].edges.emplace_back(Edge(vertex_to, weight));
 
-            Edge last = vertices[vertex_from].edges.back();
-            cout << vertex_from << " " << last.vertex << " " << last.weight << endl;
+            if (print) {
+                Edge last = vertices[vertex_from].edges.back();
+                cout << vertex_from << " " << last.vertex << " " << last.weight << endl;
+            }
         }
+    }
 
+    void add_quires_from_input(long long quires_amount, bool print=false) {
         // TODO: Loop without i
         for (int i = 0; i < quires_amount; i++) {
             long long query;
             cin >> query;
             quires[i] = query;
-            cout << quires[i] << endl;
+            if (print){
+                cout << quires[i] << endl;
+            }
         }
+    }
+
+    void add_edges_and_quires_from_input(long long edges, long long quires_amount, bool print=false) {
+        add_edges_from_input(edges, print);
+        add_quires_from_input(quires_amount, print);
     }
 };
 
-vector<Graph> get_graphs_from_input() {
+vector<Graph> get_graphs_from_input(bool print=false) {
     vector<Graph> graphs;
 
     while (true) {
@@ -68,7 +77,7 @@ vector<Graph> get_graphs_from_input() {
             break;
         }
         Graph graph = Graph(vertices_amount, quires_amount, starting_vertex);
-        graph.add_edges_and_quires_from_input(edges, quires_amount);
+        graph.add_edges_and_quires_from_input(edges, quires_amount, print);
         graphs.push_back(graph);
     }
 
@@ -78,7 +87,7 @@ vector<Graph> get_graphs_from_input() {
 int main() {
 //    std::priority_queue<Edge> pq;
 
-    vector<Graph> graphs = get_graphs_from_input();
+    vector<Graph> graphs = get_graphs_from_input(true);
 
 //    cout << endl << "Hello, World!" << endl;
     return 0;
