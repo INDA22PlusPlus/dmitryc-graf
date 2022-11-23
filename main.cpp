@@ -16,6 +16,8 @@ public:
 class Vertex {
 public:
     vector<Edge> edges;
+    long long distance = LLONG_MAX;
+    bool visited = false;
 };
 
 // TODO: Fix vectors to arrays
@@ -65,7 +67,13 @@ public:
         add_edges_from_input(edges, print);
         add_quires_from_input(quires_amount, print);
     }
+
+    void dijkstra() {
+
+    }
 };
+
+//priority_queue<>
 
 vector<Graph> get_graphs_from_input(bool print=false) {
     vector<Graph> graphs;
