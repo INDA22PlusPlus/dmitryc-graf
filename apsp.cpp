@@ -45,15 +45,17 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
     return graph;
 }
 
+// Gets all the input from cin, returns a pair of graphs and all queries
+// TODO: A way to do it without pair?
 pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>>>> get_input() {
+    // Initializes variables (base values from cin)
     long long vertices_amount, edges_amount, queries_amount;
     cin >> vertices_amount >> edges_amount >> queries_amount;
 
     vector<vector<vector<long long>>> graphs;
     vector<vector<pair<long long, long long>>> all_queries;
 
-
-//    long long queries [];
+    // Loops and stores the input to vectors (representing the graph and all queries) until none are left
     while (!(vertices_amount == 0 and edges_amount == 0 and queries_amount == 0)) {
         vector<vector<long long>> graph = get_graph_from_input(vertices_amount, edges_amount);
         vector<pair<long long, long long>> queries = get_queries_from_input(queries_amount);
@@ -62,12 +64,11 @@ pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>
         all_queries.push_back(queries);
 
         cin >> vertices_amount >> edges_amount >> queries_amount;
-//        cout << endl;
     }
-        cout << endl;
     return {graphs, all_queries};
 }
 
+// Floyd Warshall's Algorithm
 void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
     // Loops through all graphs
     for (vector<vector<long long>>& graph: graphs) {
@@ -82,17 +83,40 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
     }
 }
 
+// Prints the queries from the graph
+void print_queries(vector<vector<vector<long long>>> graphs, vector<vector<pair<long long, long long>>> all_queries) {
+    // Loops through graphs and responding queries
+    for (int i = 0; i < all_queries.size(); i++) {
+        vector<vector<long long>> graph = graphs[i];
+        vector<pair<long long, long long>> queries = all_queries[i];
 
-void print_queries() {
+        // Loops through queries and outputs distance if possible, otherwise "Impossible"
+        for (pair<long long, long long> query: queries) {
+            long long distance = graph[query.first][query.second];
+            if (distance == INFP) {
+                cout << "Impossible" << endl;
+            } else {
+                cout << distance << endl;
+            }
+        }
 
+        // TODO: Better way to do this?
+        if (i < all_queries.size() - 1) {
+            cout << endl;
+        }
+    }
 }
 
 int main() {
-    // TODO: Fix this mess
+    // TODO: Fix this pair mess
     pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>>>> inp = get_input();
+
     vector<vector<vector<long long>>> graphs = inp.first;
     vector<vector<pair<long long, long long>>> all_queries = inp.second;
+
     floyd_warshall(graphs);
-    print_queries();
+
+    print_queries(graphs, all_queries);
+
     return 1;
 }
