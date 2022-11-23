@@ -45,7 +45,7 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
     return graph;
 }
 
-void get_input() {
+pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>>>> get_input() {
     long long vertices_amount, edges_amount, queries_amount;
     cin >> vertices_amount >> edges_amount >> queries_amount;
 
@@ -65,10 +65,15 @@ void get_input() {
 //        cout << endl;
     }
         cout << endl;
+    return {graphs, all_queries};
 }
 
 int main() {
-    get_input();
+    // TODO: Fix this mess
+    pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>>>> inp = get_input();
+//    vector<vector<vector<long long>>> graph = inp.first;
+//    vector<vector<pair<long long, long long>>> all_queries = inp.second;
+
 
     return 1;
 }
