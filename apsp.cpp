@@ -76,7 +76,10 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
         for (int k = 0; k < graph.size(); k++) {
             for (int i = 0; i < graph.size(); i++) {
                 for (int j = 0; j < graph.size(); j++) {
-                    graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
+//                    graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
+                    if (graph[i][k] + graph[k][j] < graph[i][j] and graph[i][k] < INFP and graph[k][j] < INFP) {
+                        graph[i][j] = graph[i][k] + graph[k][j];
+                    }
                 }
             }
         }
@@ -88,10 +91,10 @@ void floyd_warshall_negative(vector<vector<vector<long long>>>& graphs) {
     // Loops through all graphs
     for (vector<vector<long long>>& graph: graphs) {
         // Floyd Warshall's algorithm for each graph
-        for (int k = 0; k < graph.size(); k++) {
-            for (int i = 0; i < graph.size(); i++) {
-                for (int j = 0; j < graph.size(); j++) {
-                    if (graph[i][k] + graph[k][j] < graph[i][j]) {
+        for (int i = 0; i < graph.size(); i++) {
+            for (int j = 0; j < graph.size(); j++) {
+                for (int k = 0; k < graph.size(); k++) {
+                    if (graph[k][k] < 0 and graph[i][k] != INFP and graph[k][j] != INFP) {
                         graph[i][j] = INFN;
                     }
                 }
@@ -134,8 +137,9 @@ int main() {
     vector<vector<pair<long long, long long>>> all_queries = inp.second;
 
     floyd_warshall(graphs);
-    floyd_warshall_negative(graphs);
+//    print_queries(graphs, all_queries);
 
+    floyd_warshall_negative(graphs);
     print_queries(graphs, all_queries);
 
     return 0;
