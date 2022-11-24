@@ -24,7 +24,7 @@ public:
         this->id = 0;
     }
 
-    Vertex(long long id) {
+    explicit Vertex(long long id) {
         this->id = id;
     }
 };
