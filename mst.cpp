@@ -4,26 +4,26 @@
 
 using namespace std;
 
-const int INF = 1000005;
+const short INF = 30005;
 
 struct Edge {
-    int vertex = -1;
-    int weight = INF;
+    short vertex = -1;
+    short weight = INF;
 };
 
 int main() {
-    int vertices_amount, edges_amount;
+    short vertices_amount, edges_amount;
     cin >> vertices_amount >> edges_amount;
 
     while (!(vertices_amount == 0 and edges_amount == 0)) {
         //// Getting the input, storing it to graph
 
         // Initialize graph with positive infinity
-        vector<vector<int>> graph(vertices_amount, vector<int>(vertices_amount, INF));
+        vector<vector<short>> graph(vertices_amount, vector<short>(vertices_amount, INF));
 
         // Add edges from input (Directional graph)
-        for (int edge = 0; edge < edges_amount; edge++) {
-            int from, to, weight;
+        for (short edge = 0; edge < edges_amount; edge++) {
+            short from, to, weight;
             cin >> from >> to >> weight;
             graph[from][to] = weight;
             // Adds mirrored edge (mirrored along 0 diagonal)
@@ -31,13 +31,13 @@ int main() {
         }
 
         // Sets the diagonal zeros, in case the problem sets the value vertex something else
-        for (int vertex = 0; vertex < vertices_amount; vertex++) {
+        for (short vertex = 0; vertex < vertices_amount; vertex++) {
             graph[vertex][vertex] = 0;
         }
 
         // Debug graph output
-//        for (int y = 0; y < vertices_amount; y++) {
-//            for (int x = 0; x < vertices_amount; x++) {
+//        for (short y = 0; y < vertices_amount; y++) {
+//            for (short x = 0; x < vertices_amount; x++) {
 //                cout << graph[y][x] << " ";
 //            }
 //            cout << endl;
@@ -50,17 +50,17 @@ int main() {
         vector<Edge> min_edges(vertices_amount);
         min_edges[0].weight= 0;
 
-        int cost = 0;
+        short cost = 0;
 
-        vector<pair<int, int>> mst;
+        vector<pair<short, short>> mst;
 
         // Runs Prim's algorithm
         // Loops vertices_amount times
-        for (int y = 0; y < vertices_amount; y++) {
+        for (short y = 0; y < vertices_amount; y++) {
             // Sets vertex to negative to indicate starting vertex
-            int vertex = -1;
+            short vertex = -1;
             // Loops through selected
-            for (int x = 0; x < vertices_amount; x++) {
+            for (short x = 0; x < vertices_amount; x++) {
                 // Checks if vertex isn't selected, then if vertex has initial value or the new value is smaller than
                 // the current one resets the vertex to the smaller one
                 if (!selected[x] and (vertex == -1 or min_edges[x].weight < min_edges[vertex].weight))
@@ -88,22 +88,22 @@ int main() {
             }
 
             // Adds edges to min_edge if the new ones have a smaller weight
-            for (int to = 0; to < vertices_amount; to++) {
+            for (short to = 0; to < vertices_amount; to++) {
                 if (graph[vertex][to] < min_edges[to].weight)
                     min_edges[to] = {vertex, graph[vertex][to]};
             }
         }
 
-        // Prints out the mst if possible with edges, otherwise prints "Impossible"
+        // Prshorts out the mst if possible with edges, otherwise prshorts "Impossible"
         if (!mst.empty()) {
-            // Prints the mst cost
+            // Prshorts the mst cost
             cout << cost << endl;
 
             // Sorts the mst for the right output
             sort(mst.begin(), mst.end());
 
             // Outputs the sorted mst
-            for (pair<int, int> edge: mst) {
+            for (pair<short, short> edge: mst) {
                 cout << edge.first << " " << edge.second << endl;
             }
         } else {
