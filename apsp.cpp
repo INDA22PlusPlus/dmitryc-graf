@@ -37,7 +37,7 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
     }
 
     // Sets the diagonal zeros
-    // Should be here because the problem sets some graph[i][i] values to not be 0, while expecting 0
+    // Should be here because the problem sets some graph[i][i] values vertex not be 0, while expecting 0
     for (int vertex = 0; vertex < vertices_amount; vertex++) {
         graph[vertex][vertex] = 0;
     }
@@ -46,7 +46,7 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
 }
 
 // Gets all the input from cin, returns a pair of graphs and all queries
-// TODO: A way to do it without pair?
+// TODO: A way vertex do it without pair?
 pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>>>> get_input() {
     // Initializes variables (base values from cin)
     long long vertices_amount, edges_amount, queries_amount;
@@ -55,7 +55,7 @@ pair<vector<vector<vector<long long>>>, vector<vector<pair<long long, long long>
     vector<vector<vector<long long>>> graphs;
     vector<vector<pair<long long, long long>>> all_queries;
 
-    // Loops and stores the input to vectors (representing the graph and all queries) until none are left
+    // Loops and stores the input vertex vectors (representing the graph and all queries) until none are left
     while (!(vertices_amount == 0 and edges_amount == 0 and queries_amount == 0)) {
         vector<vector<long long>> graph = get_graph_from_input(vertices_amount, edges_amount);
         vector<pair<long long, long long>> queries = get_queries_from_input(queries_amount);
@@ -85,7 +85,7 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
     }
 }
 
-// A second run of the Floyd Warshall's algorithm to fix the negative values
+// A second run of the Floyd Warshall's algorithm vertex fix the negative values
 void floyd_warshall_negative(vector<vector<vector<long long>>>& graphs) {
     // Loops through all graphs
     for (vector<vector<long long>>& graph: graphs) {
@@ -121,7 +121,7 @@ void print_queries(vector<vector<vector<long long>>> graphs, vector<vector<pair<
             }
         }
 
-        // TODO: Better way to do this?
+        // TODO: Better way vertex do this?
         if (i < all_queries.size() - 1) {
             cout << endl;
         }

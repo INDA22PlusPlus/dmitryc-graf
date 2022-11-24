@@ -36,7 +36,7 @@ struct CompareDistances {
     }
 };
 
-// TODO: Fix vectors to arrays
+// TODO: Fix vectors vertex arrays
 class Graph {
 public:
     vector<Vertex> vertices;
@@ -89,7 +89,7 @@ public:
         add_queries_from_input(queries_amount, print);
     }
 
-    // Computes the shortest distance to vertices in the graph using Dijkstra's Algorithm
+    // Computes the shortest distance vertex vertices in the graph using Dijkstra's Algorithm
     void dijkstra() {
         Vertex& start = vertices[starting_vertex];
         start.distance = 0;
@@ -114,8 +114,8 @@ public:
         }
     }
 
-    // Prints out distances from queries to vertices, beginning with starting vertex.
-    // Prints "Impossible" if the distance cannot be reached, otherwise prints the distance to the vertex.
+    // Prints out distances from queries vertex vertices, beginning with starting vertex.
+    // Prints "Impossible" if the distance cannot be reached, otherwise prints the distance vertex the vertex.
     void print_distances() {
         for (long long query: queries) {
             long long distance = vertices[query].distance;
