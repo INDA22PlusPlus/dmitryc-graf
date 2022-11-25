@@ -41,14 +41,6 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
         }
     }
 
-
-//    for (int y = 0; y < vertices_amount; y++) {
-//        for (int x = 0; x < vertices_amount; x++) {
-//            cout << graph[y][x] << " ";
-//        }
-//        cout << endl;
-//    }
-
     return graph;
 }
 
@@ -85,14 +77,6 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
                 for (int j = 0; j < graph.size(); j++) {
                     if (graph[i][k] + graph[k][j] < graph[i][j] and graph[i][k] < INF and graph[k][j] < INF) {
                         graph[i][j] = graph[i][k] + graph[k][j];
-
-//                        for (int y = 0; y < graph.size(); y++) {
-//                            for (int x = 0; x < graph.size(); x++) {
-//                                cout << graph[y][x] << " ";
-//                            }
-//                            cout << endl;
-//                        }
-//                        cout << endl;
                     }
                 }
             }
@@ -100,17 +84,18 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
     }
 }
 
-// Floyd Warshall's Algorithm
-void compare_graphs(vector<vector<vector<long long>>>& graphs, vector<vector<vector<long long>>>& temp_graphs) {
+// Floyd Warshall's Algorithm second run, to detect negative edges
+void floyd_warshall_negative(vector<vector<vector<long long>>>& graphs) {
     // Loops through all graphs
-    for (int graph_idx = 0; graph_idx < graphs.size(); graph_idx++) {
-        vector<vector<long long>>& graph = graphs[graph_idx];
-        vector<vector<long long>>& temp_graph = temp_graphs[graph_idx];
-
-        for (int y = 0; y < graph.size(); y++) {
-            for (int x = 0; x < graph.size(); x++) {
-                if (temp_graph[y][x] < graph[y][x]) {
-                    graph[y][x] = -INF;
+    for (vector<vector<long long>>& graph: graphs) {
+        // Floyd Warshall's algorithm for each graph, negative values
+        for (int k = 0; k < graph.size(); k++) {
+            for (int i = 0; i < graph.size(); i++) {
+                for (int j = 0; j < graph.size(); j++) {
+                    // If diagonal element is less than zero sets all related elements to -INF
+                    if (graph[k][k] < 0 and graph[i][k] != INF and graph[k][j] != INF) {
+                        graph[i][j] = -INF;
+                    }
                 }
             }
         }
@@ -152,13 +137,8 @@ int main() {
 
     // Initial Floyd Warshall run
     floyd_warshall(graphs);
-
-    vector<vector<vector<long long>>> temp_graphs = graphs;
     // Second run with temp graph to find negative loops
-    floyd_warshall(temp_graphs);
-
-    // Compares graphs, if negative loops found sets graph values to -INF
-    compare_graphs(graphs, temp_graphs);
+    floyd_warshall_negative(graphs);
 
     print_queries(graphs, all_queries);
 
