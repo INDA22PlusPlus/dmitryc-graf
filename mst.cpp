@@ -94,7 +94,7 @@ int main() {
             }
         }
 
-        // Prshorts out the mst if possible with edges, otherwise prshorts "Impossible"
+        // Prints out the mst if possible with edges, otherwise prints "Impossible"
         if (!mst.empty()) {
             // Prshorts the mst cost
             cout << cost << endl;
