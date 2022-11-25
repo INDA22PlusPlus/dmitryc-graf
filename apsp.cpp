@@ -33,7 +33,9 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
     for (int edge = 0; edge < edges_amount; edge++) {
         long long from, to, weight;
         cin >> from >> to >> weight;
-        graph[from][to] = weight;
+        if (weight < graph[from][to]) {
+            graph[from][to] = weight;
+        }
     }
 
     // Sets the diagonal zeros
@@ -41,6 +43,13 @@ vector<vector<long long>> get_graph_from_input(long long vertices_amount,
     for (int vertex = 0; vertex < vertices_amount; vertex++) {
         graph[vertex][vertex] = 0;
     }
+
+//    for (int y = 0; y < vertices_amount; y++) {
+//        for (int x = 0; x < vertices_amount; x++) {
+//            cout << graph[y][x] << " ";
+//        }
+//        cout << endl;
+//    }
 
     return graph;
 }
@@ -76,8 +85,20 @@ void floyd_warshall(vector<vector<vector<long long>>>& graphs) {
         for (int k = 0; k < graph.size(); k++) {
             for (int i = 0; i < graph.size(); i++) {
                 for (int j = 0; j < graph.size(); j++) {
-                    if (graph[i][k] + graph[k][j] < graph[i][j] and graph[i][k] + graph[k][j] < 10000) {
+                    int a = graph[i][k];
+                    int b = graph[k][j];
+                    int c = a + b;
+                    int d = graph[i][j];
+                    if (graph[i][k] + graph[k][j] < graph[i][j] and graph[i][k] + graph[k][j] < 10000 and i != j and a > ) {
                         graph[i][j] = graph[i][k] + graph[k][j];
+
+                            for (int y = 0; y < graph.size(); y++) {
+                                for (int x = 0; x < graph.size(); x++) {
+                                    cout << graph[y][x] << " ";
+                                }
+                                cout << endl;
+                            }
+                            cout << endl;
                     }
                 }
             }
